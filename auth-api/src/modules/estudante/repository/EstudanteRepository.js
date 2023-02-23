@@ -21,7 +21,14 @@ class EstudanteRepository {
     }
   }
 
-  async createEstudante(email, password, id_usuario) {
+  async createEstudante(
+    email,
+    password,
+    id_usuario,
+    matricula,
+    curso,
+    validade
+  ) {
     try {
       const pass = await bcrypt.hash("123456", 10);
 
@@ -30,6 +37,9 @@ class EstudanteRepository {
         id_usuario,
         email,
         password: pass,
+        matricula,
+        curso,
+        validade,
       });
 
       console.log(estudante.dataValues);
