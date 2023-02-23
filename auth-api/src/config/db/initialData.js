@@ -14,6 +14,7 @@ export async function createInitialData() {
       email: "201908274417@alunos.estacio.br",
       matricula: "201908274417",
       curso: "Sistemas de Informação",
+      validade: "20/07/2022",
       password,
     });
   } catch (err) {
