@@ -111,12 +111,25 @@ class EstudanteService {
     }
   }
 
-  validateCreateEstudante(email, password, id_usuario) {
-    console.log(email, password, id_usuario);
-    if (!email || !password || !id_usuario) {
+  validateCreateEstudante(
+    email,
+    password,
+    id_usuario,
+    matricula,
+    curso,
+    validade
+  ) {
+    if (
+      !email ||
+      !password ||
+      !id_usuario ||
+      !matricula ||
+      !curso ||
+      !validade
+    ) {
       throw new EstudanteException(
         httpStatus.UNAUTHORIZED,
-        "Email, senha ou, id_usuario não informados"
+        "Email / senha / id_usuario / matricula / curso / validade"
       );
     }
   }
@@ -129,8 +142,16 @@ class EstudanteService {
 
   async createEstudante(req) {
     try {
-      const { email, password, id_usuario } = req.body;
-      this.validateCreateEstudante(email, password, id_usuario);
+      const { email, password, id_usuario, matricula, curso, validade } =
+        req.body;
+      this.validateCreateEstudante(
+        email,
+        password,
+        id_usuario,
+        matricula,
+        curso,
+        validade
+      );
 
       let estudante = await EstudanteRepository.findByEmail(email);
       this.validateEstudanteFound(estudante);
@@ -138,7 +159,10 @@ class EstudanteService {
       const novoEstudante = await EstudanteRepository.createEstudante(
         email,
         password,
-        id_usuario
+        id_usuario,
+        matricula,
+        curso,
+        validade
       );
 
       return {
