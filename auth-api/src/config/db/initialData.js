@@ -12,6 +12,8 @@ export async function createInitialData() {
       id: randomUUID(),
       id_usuario: randomUUID(),
       email: "201908274417@alunos.estacio.br",
+      matricula: "201908274417",
+      curso: "Sistemas de Informação",
       password,
     });
   } catch (err) {
