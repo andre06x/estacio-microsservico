@@ -12,6 +12,10 @@ const Estudante = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    matricula: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     email: {
       type: Sequelize.STRING,
       allowNull: false,
