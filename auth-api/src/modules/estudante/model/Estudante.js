@@ -16,6 +16,10 @@ const Estudante = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    campus: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     curso: {
       type: Sequelize.STRING,
       allowNull: false,

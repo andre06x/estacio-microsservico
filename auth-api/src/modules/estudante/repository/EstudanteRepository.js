@@ -27,6 +27,7 @@ class EstudanteRepository {
     id_usuario,
     matricula,
     curso,
+    campus,
     validade
   ) {
     try {
@@ -39,6 +40,7 @@ class EstudanteRepository {
         password: pass,
         matricula,
         curso,
+        campus,
         validade,
       });
 

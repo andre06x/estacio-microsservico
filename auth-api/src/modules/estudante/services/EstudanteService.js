@@ -117,6 +117,7 @@ class EstudanteService {
     id_usuario,
     matricula,
     curso,
+    campus,
     validade
   ) {
     if (
@@ -125,6 +126,7 @@ class EstudanteService {
       !id_usuario ||
       !matricula ||
       !curso ||
+      !campus ||
       !validade
     ) {
       throw new EstudanteException(
@@ -142,14 +144,23 @@ class EstudanteService {
 
   async createEstudante(req) {
     try {
-      const { email, password, id_usuario, matricula, curso, validade } =
-        req.body;
+      const {
+        email,
+        password,
+        id_usuario,
+        matricula,
+        curso,
+        campus,
+        validade,
+      } = req.body;
+
       this.validateCreateEstudante(
         email,
         password,
         id_usuario,
         matricula,
         curso,
+        campus,
         validade
       );
 
@@ -162,6 +173,7 @@ class EstudanteService {
         id_usuario,
         matricula,
         curso,
+        campus,
         validade
       );
 

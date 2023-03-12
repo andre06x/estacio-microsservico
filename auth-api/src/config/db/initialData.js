@@ -13,6 +13,7 @@ export async function createInitialData() {
       id_usuario: randomUUID(),
       email: "201908274417@alunos.estacio.br",
       matricula: "201908274417",
+      campus: "NITEROI",
       curso: "Sistemas de Informação",
       validade: "20/07/2022",
       password,
