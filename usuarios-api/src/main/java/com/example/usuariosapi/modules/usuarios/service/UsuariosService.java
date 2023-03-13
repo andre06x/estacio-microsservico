@@ -46,7 +46,7 @@ public class UsuariosService {
     }
 
     public Usuario findById(UUID id){
-        return usuarioRepository.findById(id).orElseThrow(() -> new ValidationExcpetion("Não foi encontrado usuario com esse id"));
+        return usuarioRepository.findById(id).orElseThrow(() -> new ValidationExcpetion("Não foi encontrado usuario com esse id" + id));
     }
 
     public UsuariosResponse update(UsuariosRequest request, UUID id){
