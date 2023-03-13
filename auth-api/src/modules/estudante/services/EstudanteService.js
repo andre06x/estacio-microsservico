@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import EstudanteRepository from "../repository/EstudanteRepository.js";
 import EstudanteException from "../exception/EstudanteException.js";
 
+import DadosUsuarios from "../model/client/Usuarios.js";
+
 import * as httpStatus from "../../../config/constants/httpStatus.js";
 import * as secrets from "../../../config/constants/secrets.js";
 
@@ -16,16 +18,22 @@ class EstudanteService {
       this.validateRequestData(email);
 
       let estudante = await EstudanteRepository.findByEmail(email);
+      console.log(estudante.id_usuario);
+      let usuario = await DadosUsuarios.getDataUser(estudante.id_usuario);
+
       this.validateEstudanteNotFound(estudante);
       this.validateAuthenticatedEstudante(estudante, authUser);
-      console.log(estudante);
+      // console.log(estudante);
       return {
         status: httpStatus.SUCCESS,
         estudante: {
           id: estudante.id,
-          id_usuario: estudante.id_usuario,
           email: estudante.email,
+          campus: estudante.campus,
+          curso: estudante.curso,
+          validade: estudante.validade,
         },
+        usuario,
       };
     } catch (err) {
       return {
