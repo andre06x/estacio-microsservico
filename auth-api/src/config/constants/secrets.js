@@ -9,3 +9,7 @@ export const DB_NAME = env.DB_NAME ? env.DB_NAME : "auth-db";
 export const DB_USER = env.DB_USER ? env.DB_USER : "admin";
 
 export const DB_PASSWORD = env.DB_PASSWORD ? env.DB_PASSWORD : "123456";
+
+export const USUARIOS_API_URL = env.USUARIOS_API_URL
+  ? env.USUARIOS_API_URL
+  : "http://localhost:8081/api/usuarios";
