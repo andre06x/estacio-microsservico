@@ -21,6 +21,37 @@ class EstudanteRepository {
     }
   }
 
+  async putEstudante(
+    id,
+    email,
+    password,
+    id_usuario,
+    matricula,
+    curso,
+    campus,
+    validade
+  ) {
+    try {
+      const pass = await bcrypt.hash(password, 10);
+
+      let estudante = await Estudante.update(
+        {
+          email,
+          password: pass,
+          id_usuario,
+          matricula,
+          curso,
+          campus,
+          validade,
+        },
+        { where: { id } }
+      );
+      // console.log(estudante)
+      return estudante.dataValues;
+    } catch (err) {
+      return null;
+    }
+  }
   async createEstudante(
     email,
     password,

@@ -14,6 +14,7 @@ class EstudanteService {
     try {
       const { email } = req.params;
       const { authUser } = req;
+      console.log(authUser);
 
       this.validateRequestData(email);
 
@@ -53,6 +54,7 @@ class EstudanteService {
   }
 
   validateEstudanteNotFound(estudante) {
+    console.log(estudante);
     if (!estudante) {
       throw new EstudanteException(
         httpStatus.BAD_REQUEST,
@@ -85,13 +87,16 @@ class EstudanteService {
 
       this.validateAccessTokenData(email, password);
       let estudante = await EstudanteRepository.findByEmail(email);
+      console.log(estudante);
+      let usuario = await DadosUsuarios.getDataUser(estudante.id_usuario);
 
       this.validateEstudanteNotFound(estudante);
 
       let authUser = {
         id: estudante.id,
-        usuario_id: estudante.id,
+        usuario_id: estudante.usuario_id,
         email: estudante.password,
+        admin: usuario.admin,
       };
 
       const accessToken = jwt.sign({ authUser }, secrets.API_SECRET, {
@@ -147,6 +152,52 @@ class EstudanteService {
   async validadePassword(password, hashPassword) {
     if (!(await bcrypt.compare(password, hashPassword))) {
       throw new UserException(httpStatus.UNAUTHORIZED, "Password não confere");
+    }
+  }
+
+  async putEstudante(req) {
+    try {
+      const { id } = req.params;
+      const {
+        email,
+        password,
+        id_usuario,
+        matricula,
+        curso,
+        campus,
+        validade,
+      } = req.body;
+
+      this.validateCreateEstudante(
+        email,
+        password,
+        id_usuario,
+        matricula,
+        curso,
+        campus,
+        validade
+      );
+
+      const atualizandoEstudante = await EstudanteRepository.putEstudante(
+        id,
+        email,
+        password,
+        id_usuario,
+        matricula,
+        curso,
+        campus,
+        validade
+      );
+
+      return {
+        status: httpStatus.SUCCESS,
+        atualizandoEstudante,
+      };
+    } catch (err) {
+      return {
+        status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
+        message: err.message,
+      };
     }
   }
 
