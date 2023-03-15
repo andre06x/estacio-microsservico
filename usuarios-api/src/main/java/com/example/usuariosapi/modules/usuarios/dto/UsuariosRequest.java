@@ -17,4 +17,6 @@ public class UsuariosRequest {
     private String rg;
 
     private String dt_nascimento;
+
+    private Boolean admin;
 }
