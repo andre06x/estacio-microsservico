@@ -10,13 +10,16 @@ router.post("/api/estudante/auth", EstudanteController.getAccessToken);
 
 router.use(checkToken);
 
-router.get("/api/estudante/email/:email", EstudanteController.findByEmail);
+router.get("/api/estudante/", EstudanteController.findById);
 
 router.use(checkAdmin);
+
+router.get("/api/estudante/all", EstudanteController.findAll);
+router.get("/api/estudante/:id", EstudanteController.findByIdAdmin);
 
 router.post("/api/estudante", EstudanteController.createEstudante);
 
 router.put("/api/estudante/:id", EstudanteController.putEstudante);
-// router.delete("/api/estudante/email/:id", EstudanteController.delEstudante);
+router.delete("/api/estudante/:id", EstudanteController.deleteById);
 
 export default router;
