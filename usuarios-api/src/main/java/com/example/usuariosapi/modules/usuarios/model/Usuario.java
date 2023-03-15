@@ -34,6 +34,9 @@ public class Usuario implements Serializable {
     @Column(nullable = false)
     private String dt_nascimento;
 
+    @Column(nullable = false)
+    private Boolean admin;
+
     public static Usuario of(UsuariosRequest request){
         var usuario = new Usuario();
         BeanUtils.copyProperties(request, usuario);

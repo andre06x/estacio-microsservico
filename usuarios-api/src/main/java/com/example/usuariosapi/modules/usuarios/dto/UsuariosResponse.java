@@ -18,6 +18,8 @@ public class UsuariosResponse {
 
     private String dt_nascimento;
 
+    private Boolean admin;
+
     public static UsuariosResponse of(Usuario request){
         var usuario = new UsuariosResponse();
         BeanUtils.copyProperties(request, usuario);
