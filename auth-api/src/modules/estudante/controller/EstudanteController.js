@@ -15,6 +15,11 @@ class EstudanteController {
     const estudante = await EstudanteService.createEstudante(req);
     return res.status(estudante.status).json(estudante);
   }
+
+  async putEstudante(req, res) {
+    const estudante = await EstudanteService.putEstudante(req);
+    return res.status(estudante.status).json(estudante);
+  }
 }
 
 export default new EstudanteController();
