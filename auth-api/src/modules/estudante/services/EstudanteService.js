@@ -10,17 +10,21 @@ import * as httpStatus from "../../../config/constants/httpStatus.js";
 import * as secrets from "../../../config/constants/secrets.js";
 
 class EstudanteService {
-  async findByEmail(req) {
+  async findById(req) {
     try {
-      const { email } = req.params;
+      // const { id } = req.params;
       const { authUser } = req;
+      const { authorization } = req.headers;
       console.log(authUser);
 
-      this.validateRequestData(email);
+      this.validateRequestData(authUser);
 
-      let estudante = await EstudanteRepository.findByEmail(email);
+      let estudante = await EstudanteRepository.findById(authUser.id);
       console.log(estudante.id_usuario);
-      let usuario = await DadosUsuarios.getDataUser(estudante.id_usuario);
+      let usuario = await DadosUsuarios.getDataUser(
+        estudante.id_usuario,
+        authorization
+      );
 
       this.validateEstudanteNotFound(estudante);
       this.validateAuthenticatedEstudante(estudante, authUser);
@@ -44,8 +48,44 @@ class EstudanteService {
     }
   }
 
-  validateRequestData(email) {
-    if (!email) {
+  async findByIdAdmin(req) {
+    try {
+      const { id } = req.params;
+      const { authUser } = req;
+      const { authorization } = req.headers;
+
+      this.validateRequestData(authUser);
+
+      let estudante = await EstudanteRepository.findById(id);
+      this.validateEstudanteNotFound(estudante);
+
+      let usuario = await DadosUsuarios.getDataUser(
+        estudante.id_usuario,
+        authorization
+      );
+
+      // console.log(estudante);
+      return {
+        status: httpStatus.SUCCESS,
+        estudante: {
+          id: estudante.id,
+          email: estudante.email,
+          campus: estudante.campus,
+          curso: estudante.curso,
+          validade: estudante.validade,
+        },
+        usuario,
+      };
+    } catch (err) {
+      return {
+        status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
+        message: err.message,
+      };
+    }
+  }
+
+  validateRequestData(id) {
+    if (!id) {
       throw new EstudanteException(
         httpStatus.BAD_REQUEST,
         "Email do estudante não foi informado."
@@ -84,20 +124,25 @@ class EstudanteService {
   async getAccessToken(req) {
     try {
       const { email, password } = req.body;
+      const { authorization } = req.headers;
 
       this.validateAccessTokenData(email, password);
-      let estudante = await EstudanteRepository.findByEmail(email);
-      console.log(estudante);
-      let usuario = await DadosUsuarios.getDataUser(estudante.id_usuario);
 
+      let estudante = await EstudanteRepository.findByEmail(email);
       this.validateEstudanteNotFound(estudante);
+
+      let usuario = await DadosUsuarios.getDataUser(
+        estudante.id_usuario,
+        authorization
+      );
 
       let authUser = {
         id: estudante.id,
-        usuario_id: estudante.usuario_id,
-        email: estudante.password,
+        id_usuario: estudante.id_usuario,
+        email: estudante.email,
         admin: usuario.admin,
       };
+      console.log(authUser);
 
       const accessToken = jwt.sign({ authUser }, secrets.API_SECRET, {
         expiresIn: "1d",
@@ -158,6 +203,11 @@ class EstudanteService {
   async putEstudante(req) {
     try {
       const { id } = req.params;
+      this.validateId(id);
+
+      let estudante = await EstudanteRepository.findById(id);
+      this.validateEstudanteNotFound(estudante);
+
       const {
         email,
         password,
@@ -235,7 +285,7 @@ class EstudanteService {
         campus,
         validade
       );
-
+      console.log(novoEstudante);
       return {
         status: httpStatus.SUCCESS,
         novoEstudante,
@@ -245,6 +295,72 @@ class EstudanteService {
         status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
         message: err.message,
       };
+    }
+  }
+
+  async deleteById(req) {
+    try {
+      const { id } = req.params;
+      this.validateId(id);
+
+      let estudante = await EstudanteRepository.findById(id);
+      this.validateEstudanteNotFound(estudante);
+
+      const { message } = await EstudanteRepository.deleteById(id);
+      return {
+        status: httpStatus.SUCCESS,
+        message,
+      };
+    } catch (err) {
+      return {
+        status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
+        message: err.message,
+      };
+    }
+  }
+
+  async findAll(req) {
+    try {
+      const { authorization } = req.headers;
+
+      let estudante = await EstudanteRepository.findAll();
+      this.validateEstudantes(estudante);
+
+      for (let i = 0; i < estudante.length; i++) {
+        let usuario = await DadosUsuarios.getDataUser(
+          estudante[i].id_usuario,
+          authorization
+        );
+        estudante[i] = { ...estudante[i].dataValues, usuario };
+      }
+
+      return {
+        status: httpStatus.SUCCESS,
+        estudante,
+      };
+    } catch (err) {
+      return {
+        status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
+        message: err.message,
+      };
+    }
+  }
+
+  validateId(id) {
+    if (!id) {
+      throw new EstudanteException(
+        httpStatus.BAD_REQUEST,
+        "Não foi definido ID"
+      );
+    }
+  }
+
+  validateEstudantes(estudantes) {
+    if (!estudantes || estudantes.length === 0) {
+      throw new EstudanteException(
+        httpStatus.BAD_REQUEST,
+        "Não foi encontrado nenhum estudante"
+      );
     }
   }
 }
