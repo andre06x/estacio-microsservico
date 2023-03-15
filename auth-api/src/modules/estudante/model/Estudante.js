@@ -14,6 +14,7 @@ const Estudante = sequelize.define(
     },
     matricula: {
       type: Sequelize.STRING,
+      unique: true,
       allowNull: false,
     },
     campus: {
@@ -30,6 +31,7 @@ const Estudante = sequelize.define(
     },
     email: {
       type: Sequelize.STRING,
+      unique: true,
       allowNull: false,
       unique: true,
       validate: {
