@@ -6,7 +6,7 @@ class DadosUsuarios {
   async getDataUser(id_usuario, token) {
     try {
       let response = false;
-      console.log(id_usuario);
+      // console.log(id_usuario);
 
       const headers = {
         Authorization: token,
@@ -15,7 +15,7 @@ class DadosUsuarios {
       await axios
         .get(`${USUARIOS_API_URL}/${id_usuario}`, { headers })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           response = res.data;
         })
         .catch((res) => {

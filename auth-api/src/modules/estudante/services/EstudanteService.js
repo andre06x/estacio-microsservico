@@ -20,7 +20,7 @@ class EstudanteService {
       this.validateRequestData(authUser);
 
       let estudante = await EstudanteRepository.findById(authUser.id);
-      console.log(estudante.id_usuario);
+      // console.log(estudante.id_usuario);
       let usuario = await DadosUsuarios.getDataUser(
         estudante.id_usuario,
         authorization

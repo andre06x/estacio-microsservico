@@ -48,7 +48,7 @@ class EstudanteRepository {
         },
         { where: { id } }
       );
-      console.log(estudante);
+      // console.log(estudante);
       return estudante;
     } catch (err) {
       return null;
