@@ -1,12 +1,18 @@
 package com.example.usuariosapi.modules.usuarios.dto;
 
 import com.example.usuariosapi.modules.usuarios.model.Usuario;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import java.util.UUID;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuariosResponse {
     private UUID id;
 
@@ -25,4 +31,5 @@ public class UsuariosResponse {
         BeanUtils.copyProperties(request, usuario);
         return usuario;
     }
+
 }
