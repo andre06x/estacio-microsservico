@@ -27,10 +27,10 @@ public class AuthInterceptor implements HandlerInterceptor {
         if(isOptions(request)){
             return true;
         }
-        if(matcher.match(pattern, requestURI)){
+//        if(matcher.match(pattern, requestURI)){
             var authorization = request.getHeader(AUTHORIZATION);
             jwtService.validateAuthorization(authorization);
-        }
+//        }
 
         return true;
     }
