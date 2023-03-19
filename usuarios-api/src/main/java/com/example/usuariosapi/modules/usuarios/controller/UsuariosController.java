@@ -1,6 +1,7 @@
 package com.example.usuariosapi.modules.usuarios.controller;
 
 import com.example.usuariosapi.config.SuccessResponse;
+import com.example.usuariosapi.modules.usuarios.dto.UsuarioAdminResponse;
 import com.example.usuariosapi.modules.usuarios.dto.UsuariosRequest;
 import com.example.usuariosapi.modules.usuarios.dto.UsuariosResponse;
 import com.example.usuariosapi.modules.usuarios.service.UsuariosService;
@@ -31,6 +32,9 @@ public class UsuariosController {
     public UsuariosResponse findById(@PathVariable UUID id){
         return usuariosService.findByIdResponse(id);
     }
+
+    @GetMapping("/admin/{id}")
+    public UsuarioAdminResponse userIsAdmin(@PathVariable UUID id){return usuariosService.userIsAdmin(id);}
 
     @PutMapping("{id}")
     public UsuariosResponse update(@RequestBody UsuariosRequest request, @PathVariable UUID id){
