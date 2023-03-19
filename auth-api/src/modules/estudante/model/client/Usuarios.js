@@ -27,6 +27,31 @@ class DadosUsuarios {
       return false;
     }
   }
+
+  async getAdminUser(id_usuario, token) {
+    try {
+      let response = false;
+      // console.log(id_usuario);
+
+      const headers = {
+        Authorization: token,
+      };
+
+      await axios
+        .get(`${USUARIOS_API_URL}/admin/${id_usuario}`, { headers })
+        .then((res) => {
+          // console.log(res.data);
+          response = res.data;
+        })
+        .catch((res) => {
+          response = false;
+        });
+      return response;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }
 }
 
 export default new DadosUsuarios();
