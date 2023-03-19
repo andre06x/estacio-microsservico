@@ -2,14 +2,13 @@ package com.example.usuariosapi.modules.usuarios.service;
 
 import com.example.usuariosapi.config.SuccessResponse;
 import com.example.usuariosapi.config.ValidationExcpetion;
+import com.example.usuariosapi.modules.usuarios.dto.UsuarioAdminResponse;
 import com.example.usuariosapi.modules.usuarios.dto.UsuariosRequest;
 import com.example.usuariosapi.modules.usuarios.dto.UsuariosResponse;
 import com.example.usuariosapi.modules.usuarios.model.Usuario;
 import com.example.usuariosapi.modules.usuarios.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,9 +44,22 @@ public class UsuariosService {
         return UsuariosResponse.of(findById(id));
     }
 
+    public  UsuarioAdminResponse userIsAdmin(UUID id){
+        if(isEmpty(id)){
+            throw new ValidationExcpetion("Id do usuario não informado.");
+        }
+        System.out.println(id);
+        return  UsuarioAdminResponse.of(findById(id));
+    }
     public Usuario findById(UUID id){
         return usuarioRepository.findById(id).orElseThrow(() -> new ValidationExcpetion("Não foi encontrado usuario com esse id" + id));
     }
+
+    public List<UsuarioAdminResponse> findByIdAdmin(UUID id){
+        return usuarioRepository.admin(id);
+    }
+
+
 
     public UsuariosResponse update(UsuariosRequest request, UUID id){
         validateUsuariosInformed(request);
