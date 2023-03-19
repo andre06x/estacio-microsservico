@@ -131,7 +131,7 @@ class EstudanteService {
       let estudante = await EstudanteRepository.findByEmail(email);
       this.validateEstudanteNotFound(estudante);
 
-      let usuario = await DadosUsuarios.getDataUser(
+      let usuario = await DadosUsuarios.getAdminUser(
         estudante.id_usuario,
         authorization
       );
