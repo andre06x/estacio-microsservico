@@ -15,6 +15,6 @@ public class IntercerptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor()).excludePathPatterns("/api/status").pathMatcher(new AntPathMatcher());
+        registry.addInterceptor(authInterceptor()).excludePathPatterns("/api/status", "/api/usuarios/admin/*").pathMatcher(new AntPathMatcher());
     }
 }
