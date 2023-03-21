@@ -44,15 +44,16 @@ public class UsuariosService {
         return UsuariosResponse.of(findById(id));
     }
 
+    public Usuario findById(UUID id){
+        return usuarioRepository.findById(id).orElseThrow(() -> new ValidationExcpetion("Não foi encontrado usuario com esse id" + id));
+    }
+
     public  UsuarioAdminResponse userIsAdmin(UUID id){
         if(isEmpty(id)){
             throw new ValidationExcpetion("Id do usuario não informado.");
         }
         System.out.println(id);
         return  UsuarioAdminResponse.of(findById(id));
-    }
-    public Usuario findById(UUID id){
-        return usuarioRepository.findById(id).orElseThrow(() -> new ValidationExcpetion("Não foi encontrado usuario com esse id" + id));
     }
 
     public List<UsuarioAdminResponse> findByIdAdmin(UUID id){
