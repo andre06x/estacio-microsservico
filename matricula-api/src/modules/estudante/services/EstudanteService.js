@@ -35,6 +35,7 @@ class EstudanteService {
           id: estudante.id,
           email: estudante.email,
           campus: estudante.campus,
+          matricula: estudante.matricula,
           curso: estudante.curso,
           validade: estudante.validade,
         },
