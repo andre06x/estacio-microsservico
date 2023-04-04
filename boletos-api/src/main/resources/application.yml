@@ -1,0 +1,33 @@
+server:
+  port: ${PORT:8083}
+
+spring:
+  main:
+    allow-bean-definition:overriding: true
+
+  application:
+    name: boletos-api
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5435}/${DB_NAME:boletos-db}
+    username: ${DB_USER:admin}
+    password: ${DB_PASSWORD:123456}
+    initialization-mode: always
+    initialize: true
+    continue-on-error: true
+    platform: postgresql
+    maxActive: 3
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      format_sql: true
+    show_sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+
+app-config:
+  secrets:
+    api-secret: ${API_SECRET:YXV0aC1hcGktc2VjcmV0LWNvbnRhaW5lci0xMjM0NTY=}
