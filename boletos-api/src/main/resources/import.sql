@@ -1,0 +1,1 @@
+INSERT INTO public.boletos("id", "datavencimento", "idestudante", "status","valor") VALUES ('b4b75af4-2d07-4a15-a102-c882d0fa3211', '2023-09-03', '474d78b4-1797-4238-86e7-9afdd90ce2cc', false, 35.6 );
